@@ -671,6 +671,22 @@ body {
   width: 100%;
 }
 
+.btn-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+
 /* Loading Animation */
 @keyframes shimmer {
   0% {
