@@ -25,3 +25,6 @@ class CustomUserDetailSerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True, required=True)
     new_password = serializers.CharField(write_only=True, required=True)
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
