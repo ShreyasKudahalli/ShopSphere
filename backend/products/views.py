@@ -57,3 +57,12 @@ class ProductDetailView(APIView):
         product = get_object_or_404(Product, id=id)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+
+
+        
