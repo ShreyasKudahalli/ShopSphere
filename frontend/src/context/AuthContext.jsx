@@ -39,6 +39,7 @@ export default function AuthProvider({ children }) {
         }
         catch(error) {
             console.log(error.response.data);
+            throw error
         }
     }
 
@@ -57,9 +58,36 @@ export default function AuthProvider({ children }) {
             console.log(error.response.data);
         }
     }
+    
+    async function logout() {
+    const refreshToken = localStorage.getItem("refresh");
+
+    try {
+      // Send refresh token to backend to blacklist it
+      if (refreshToken) {
+        await api.post(
+          "accounts/logout/",
+          { refresh: refreshToken },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access")}`,
+            },
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Logout error:", error.response?.data || error.message);
+      // Even if backend fails, we still clear local tokens
+    } finally {
+      // Always clear local tokens and user state
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      setUser(null);
+    }
+  }
 
     return (
-        <AuthContext.Provider value={{ signup, login, myinfo, user }}>
+        <AuthContext.Provider value={{ signup, login, myinfo, user, logout }}>
             {children}
         </AuthContext.Provider>
     )

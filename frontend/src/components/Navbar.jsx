@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import '../App.css';
 
 // ----- Data (inline for simplicity) -----
@@ -31,19 +33,27 @@ const Icons = {
 
 // ----- Navbar Component -----
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All Products');
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const shopDropdownRef = useRef(null);
+  const profileRef = useRef(null);
 
-  // Close dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (shopDropdownRef.current && !shopDropdownRef.current.contains(e.target)) {
         setIsShopDropdownOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setIsProfileOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -68,7 +78,20 @@ const Navbar = () => {
   };
 
   const handleCartClick = () => alert('🛒 Your cart is empty.');
-  const handleUserClick = () => alert('👤 Sign in or create an account');
+  
+  const handleUserClick = () => {
+    if (user) {
+      setIsProfileOpen(!isProfileOpen);
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsProfileOpen(false);
+    navigate('/login');
+  };
 
   return (
     <>
@@ -84,17 +107,16 @@ const Navbar = () => {
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
-
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <a href="#" className="text-2xl font-extrabold tracking-tight text-gray-800 hover:text-blue-600 transition-colors">
-                Tailgrids
-              </a>
+              <Link to="/" className="text-2xl font-extrabold tracking-tight text-gray-800 hover:text-blue-600 transition-colors">
+                Shopshere
+              </Link>
             </div>
 
             {/* Desktop nav links */}
             <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-              {/* Shop with dropdown */}
+              {/* Shop dropdown */}
               <div className="relative" ref={shopDropdownRef}>
                 <button
                   onClick={() => setIsShopDropdownOpen(!isShopDropdownOpen)}
@@ -145,7 +167,7 @@ const Navbar = () => {
               <a href="#" className="nav-link px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors rounded-md">Contact</a>
             </div>
 
-            {/* Right: Search + Icons */}
+            {/* Right section: Search + Icons + Profile */}
             <div className="flex items-center gap-2 sm:gap-3">
               {/* Desktop search */}
               <form
@@ -179,15 +201,57 @@ const Navbar = () => {
                 <i className="fas fa-search text-lg"></i>
               </button>
 
-              <button onClick={handleUserClick} className="text-gray-600 hover:text-blue-600 p-1.5 transition-colors">
-                <Icons.User />
-              </button>
+              {/* Profile Icon with Dropdown */}
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={handleUserClick}
+                  className="text-gray-600 hover:text-blue-600 p-1.5 transition-colors"
+                  aria-label="User menu"
+                >
+                  <Icons.User />
+                </button>
+
+                {/* Profile Popup */}
+                {isProfileOpen && user && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <p className="text-sm font-semibold text-gray-800">{user.username}</p>
+                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                    </div>
+                    <div className="px-2 py-1">
+                      <Link
+                        to="/profile"
+                        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
+                      >
+                        <i className="fas fa-user-circle w-4"></i> My Profile
+                      </Link>
+                      <Link
+                        to="/orders"
+                        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-lg transition-colors"
+                      >
+                        <i className="fas fa-box w-4"></i> Orders
+                      </Link>
+                      <hr className="my-1" />
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <i className="fas fa-sign-out-alt w-4"></i> Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Cart */}
               <button onClick={handleCartClick} className="relative text-gray-600 hover:text-blue-600 p-1.5 transition-colors">
                 <Icons.Cart />
                 <span className="cart-badge absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                   0
                 </span>
               </button>
+
+              {/* Mobile menu toggle */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="lg:hidden text-gray-600 hover:text-blue-600 p-1.5 ml-1 transition-colors"
@@ -235,6 +299,7 @@ const Navbar = () => {
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-6">
             <div className="space-y-1">
+              {/* Shop dropdown in mobile */}
               <div>
                 <button
                   onClick={() => setIsShopDropdownOpen(!isShopDropdownOpen)}
@@ -277,13 +342,28 @@ const Navbar = () => {
               </form>
             </div>
 
+            {/* Mobile user actions */}
             <div className="mt-4 flex items-center gap-4 pt-4 border-t border-gray-100">
-              <button onClick={handleUserClick} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
-                <i className="fas fa-user"></i> Sign In
-              </button>
-              <button onClick={handleCartClick} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
-                <i className="fas fa-shopping-bag"></i> Cart (0)
-              </button>
+              {user ? (
+                <>
+                  <span className="text-sm text-gray-700">Hello, {user.username}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="text-sm text-red-600 hover:text-red-700 font-medium"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
+                    <i className="fas fa-user"></i> Sign In
+                  </Link>
+                  <Link to="/register" className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
+                    <i className="fas fa-user-plus"></i> Register
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

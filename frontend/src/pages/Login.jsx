@@ -44,7 +44,7 @@ const Login = () => {
 
         {error && (
           <div className="rounded-md bg-red-50 p-4 border border-red-200">
-            <p className="text-sm text-red-700">{error}</p>
+            <p className="text-sm text-red-700">'Failed to sign in. Please check your credentials.'</p>
           </div>
         )}
 
