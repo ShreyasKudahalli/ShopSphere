@@ -1,17 +1,41 @@
-import { Link } from "react-router-dom";
+// components/ProductGrid.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function ProductCard({product}) {
+const ProductCard = ({ products = [] }) => {
+  if (products.length === 0) {
     return (
-        <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} className="product-card-image" />
-            <div className="product-card-content">
-                <h3 className="product-card-name">{product.name}</h3>
-                <p className="product-card-price">{product.price}</p>
-                <div className="product-card-actions">
-                    <Link  className="btn btn-secondary">View Details</Link>
-                    <button className="btn btn-primary">Add to Cart</button>
-                </div>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+        <p className="text-gray-500 text-lg">No products available right now.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white">
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 className="sr-only">Products</h2>
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+          {products.map((product) => (
+            <Link
+              key={product.id}
+              to={`/product/${product.id}`}
+              className="group"
+            >
+              <img
+                src={product.image}
+                alt={product.name}
+                className="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-7/8"
+              />
+              <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
+              <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p>
+              {/* Optional action buttons can be added here if needed */}
+            </Link>
+          ))}
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
