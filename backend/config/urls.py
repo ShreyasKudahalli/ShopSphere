@@ -20,7 +20,8 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),  # Include the accounts app URLs
-    path('api/products/',include('products.urls'))
+    path('api/products/',include('products.urls')),
+    path('api/cart/',include('cart.urls')),
 ]
 
 from django.conf import settings
