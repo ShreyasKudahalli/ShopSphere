@@ -7,6 +7,10 @@ import Navbar from './components/Navbar.jsx'
 import AuthProvider from './context/AuthContext.jsx'
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
+
+// Inside your Routes:
+
 
 
 function App() {
@@ -26,6 +30,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </AuthProvider>
     </>

@@ -56,6 +56,7 @@ export default function AuthProvider({ children }) {
 
         } catch (error) {
             console.log(error.response.data);
+            throw error.response.data
         }
     }
     

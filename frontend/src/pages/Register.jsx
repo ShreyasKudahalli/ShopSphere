@@ -35,7 +35,8 @@ const Register = () => {
       await signup(email, password, username);
       navigate('/login'); // redirect to login after successful registration
     } catch (err) {
-      setError(err.message || 'Registration failed. Please try again.');
+      const firstError = Object.values(err)[0][0];
+      setError(firstError);
     } finally {
       setLoading(false);
     }
