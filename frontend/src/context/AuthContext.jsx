@@ -55,8 +55,13 @@ export default function AuthProvider({ children }) {
             console.log(response.data);
 
         } catch (error) {
-            console.log(error.response.data);
-            throw error.response.data
+            if (error.response) {
+                // Django returned a validation error (400, etc.)
+                throw error.response.data;
+            } else {
+                // Backend not running / network error
+                throw new Error("Registration failed. Please try again.");
+            }
         }
     }
     

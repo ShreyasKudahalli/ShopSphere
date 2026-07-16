@@ -35,8 +35,12 @@ const Register = () => {
       await signup(email, password, username);
       navigate('/login'); // redirect to login after successful registration
     } catch (err) {
-      const firstError = Object.values(err)[0][0];
-      setError(firstError);
+      if (err.message) {
+          setError(err.message);
+      } else {
+          const firstError = Object.values(err)[0][0];
+          setError(firstError);
+      }
     } finally {
       setLoading(false);
     }
