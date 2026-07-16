@@ -28,18 +28,22 @@ export default function AuthProvider({ children }) {
     }
 
     async function login(email, password) {
-        try{
+        try {
             const response = await api.post("accounts/login/", {
                 email,
                 password,
             });
+
             localStorage.setItem("access", response.data.access);
             localStorage.setItem("refresh", response.data.refresh);
+
             await myinfo();
-        }
-        catch(error) {
-            console.log(error.response.data);
-            throw error
+        } catch (error) {
+            if (error.response) {
+                throw error.response.data;
+            } else {
+                throw new Error("Failed to sign in. Please try again.");
+            }
         }
     }
 

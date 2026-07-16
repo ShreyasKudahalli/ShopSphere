@@ -18,12 +18,19 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await login(email, password); // adjust if your login expects different params
-      navigate('/');
+        await login(email, password);
+        navigate('/');
     } catch (err) {
-      setError(err.message || 'Failed to sign in. Please check your credentials.');
+        localStorage.setItem("error", err.message);
+        if (err.detail) {
+            setError(err.detail);
+        } else if (err.message) {
+            setError(err.message);
+        } else {
+            setError("Failed to sign in. Please check your credentials.");
+        }
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
 
@@ -44,7 +51,7 @@ const Login = () => {
 
         {error && (
           <div className="rounded-md bg-red-50 p-4 border border-red-200">
-            <p className="text-sm text-red-700">'Failed to sign in. Please check your credentials.'</p>
+            <p className="text-sm text-red-700">{error}</p>
           </div>
         )}
 
