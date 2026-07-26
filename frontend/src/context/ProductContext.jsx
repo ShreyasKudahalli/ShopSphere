@@ -27,13 +27,25 @@ export default function ProductContex({ children }) {
         }
     };
 
-  // ---- Provide context value ----
-  const value = {
-    products,
-    loading,
-    error,
-    fetchProducts,
-  };
 
-  return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>;
+
+    const fetchProduct = async (id) => {
+        const response = await api.get(`/products/${id}/`);
+        return response.data;
+    };
+
+
+    useEffect(() => {
+        fetchProducts();
+        }, []);
+  // ---- Provide context value ----
+    const value = {
+        products,
+        loading,
+        error,
+        fetchProducts,
+        fetchProduct,
+    };
+
+    return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>;
 }

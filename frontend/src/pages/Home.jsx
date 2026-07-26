@@ -1,4 +1,3 @@
-import { getProducts } from '../data/products.js';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx'; // use the new grid component
 import { useContext } from 'react';
@@ -7,9 +6,11 @@ import { ProductContext } from '../context/ProductContext';
 
 
 export default function Home() {
-  const products = getProducts() || []; // ensure it's always an array
   const { user } = useContext(AuthContext);
-    const { products, loading, error } = useContext(ProductContext);
+  const { products, loading, error } = useContext(ProductContext);
+
+  if (loading) return <h2>Loading products...</h2>;
+  if (error) return <h2>{error}</h2>;
 
 
   return (

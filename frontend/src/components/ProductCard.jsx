@@ -23,7 +23,7 @@ const ProductCard = ({ products = [] }) => {
               className="group"
             >
               <img
-                src={product.image}
+                src={`http://localhost:8000${product.image}`}
                 alt={product.name}
                 className="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-7/8"
               />
