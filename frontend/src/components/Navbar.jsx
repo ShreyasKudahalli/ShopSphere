@@ -115,7 +115,7 @@ const Navbar = () => {
             </div>
 
             {/* Desktop nav links */}
-            <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
+            <div className="hidden md:flex items-center gap-2 lg:gap-4">
               {/* Shop dropdown */}
               <div className="relative" ref={shopDropdownRef}>
                 <button
@@ -262,27 +262,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
-      {/* ----- Category Bar (below navbar) ----- */}
-      <div className="bg-gray-50 border-b border-gray-200 sticky top-16 md:top-20 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="categories-scroll flex items-center gap-1 sm:gap-2 py-2.5 overflow-x-auto">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => handleCategoryClick(cat)}
-                className={`category-chip px-4 py-1.5 text-sm font-medium rounded-full border transition-all ${
-                  activeCategory === cat
-                    ? 'active border-blue-600'
-                    : 'border-gray-200 bg-white text-gray-600 hover:border-blue-300'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* ----- Mobile Menu Drawer ----- */}
       <div

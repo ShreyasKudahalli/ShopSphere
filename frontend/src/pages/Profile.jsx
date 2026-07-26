@@ -14,10 +14,9 @@ const Profile = () => {
   });
 
   // Redirect if not logged in
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (!user) navigate('/login');
+  }, [user, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

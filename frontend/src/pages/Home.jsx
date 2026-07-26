@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx'; // use the new grid component
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext.jsx';
+import { ProductContext } from '../context/ProductContext';
+
 
 export default function Home() {
   const products = getProducts() || []; // ensure it's always an array
   const { user } = useContext(AuthContext);
+    const { products, loading, error } = useContext(ProductContext);
+
 
   return (
     <div className="min-h-screen bg-white">
