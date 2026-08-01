@@ -35,3 +35,27 @@ class CartListView(APIView):
 
         serializer = CartSerializer(cart_item)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+class CartDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, id):
+        cart_item = get_object_or_404(
+            Cart,
+            id=id,
+            user=request.user
+        )
+
+        serializer = CartSerializer(
+            cart_item,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
