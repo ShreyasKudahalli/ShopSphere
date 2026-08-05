@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ProductContex from './context/ProductContext';
 import ProductDetails from './pages/ProductDetails.jsx';
+import CartProvider from './context/CartContext.jsx';
 
 
 
@@ -19,6 +20,7 @@ function App() {
     <>
     <AuthProvider>
       <ProductContex>
+      <CartProvider>
       <Navbar /> 
       <Routes>
         <Route path='/' element={<Home />} />
@@ -27,6 +29,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
+      </CartProvider>
       </ProductContex>
     </AuthProvider>
     </>

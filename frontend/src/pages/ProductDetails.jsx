@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ProductContext } from '../context/ProductContext';
 import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 const ProductDetails = () => {
   const { id } = useParams(); // get product ID from URL
@@ -11,7 +12,11 @@ const ProductDetails = () => {
   // Contexts
   const { fetchProduct } = useContext(ProductContext);
   const { user } = useContext(AuthContext);
+  const cartContext = useContext(CartContext);
 
+  console.log("Cart Context:", cartContext);
+
+  const { addToCart } = cartContext;
   // Local state
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -40,19 +45,22 @@ const ProductDetails = () => {
   }, [id, fetchProduct]);
 
   // Handle add to cart (placeholder – replace with actual cart logic)
-  const handleAddToCart = () => {
-    if (!user) {
-      alert('Please sign in to add items to your cart.');
-      navigate('/login');
-      return;
-    }
+  const handleAddToCart = async () => {
+      if (!user) {
+          navigate("/login");
+          return;
+      }
 
-    setAddingToCart(true);
-    // Simulate API call / context dispatch
-    setTimeout(() => {
-      alert(`Added ${quantity} x "${product?.name}" to cart!`);
-      setAddingToCart(false);
-    }, 600);
+      try {
+          setAddingToCart(true);
+          await addToCart(product.id, quantity);
+          alert("Product added to cart.");
+      } catch (err) {
+          console.error("Add to cart error:", err);
+          alert("Failed to add product to cart.");
+      } finally {
+          setAddingToCart(false);
+      }
   };
 
   // Loading state

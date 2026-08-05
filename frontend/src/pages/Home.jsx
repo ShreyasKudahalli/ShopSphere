@@ -7,10 +7,9 @@ import { ProductContext } from '../context/ProductContext';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  const { products, loading, error } = useContext(ProductContext);
+  const { products } = useContext(ProductContext);
 
-  if (loading) return <h2>Loading products...</h2>;
-  if (error) return <h2>{error}</h2>;
+
 
 
   return (
@@ -44,6 +43,7 @@ export default function Home() {
           )}
         </div>
       </div>
+
 
       {/* Products Section */}
       <ProductCard products={products} />
