@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import ProductContex from './context/ProductContext';
 import ProductDetails from './pages/ProductDetails.jsx';
 import CartProvider from './context/CartContext.jsx';
+import Cart from "./pages/Cart";
 
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
       </CartProvider>
       </ProductContex>

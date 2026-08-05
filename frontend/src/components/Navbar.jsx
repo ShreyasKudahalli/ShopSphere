@@ -77,7 +77,9 @@ const Navbar = () => {
     console.log(`Filtering by: ${cat}`);
   };
 
-  const handleCartClick = () => alert('🛒 Your cart is empty.');
+  const handleCartClick = () => {
+      navigate("/cart");
+  };
   
   const handleUserClick = () => {
     if (user) {

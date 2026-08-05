@@ -34,7 +34,7 @@ export default function CartProvider({ children }) {
 
         try {
             await api.post("/cart/", {
-                product: productId,
+                product_id: productId,
                 quantity,
             },
             {
