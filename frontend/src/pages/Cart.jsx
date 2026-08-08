@@ -9,6 +9,7 @@ export default function Cart() {
         loading,
         error,
         fetchCart,
+        updateCartItem,
     } = useContext(CartContext);
 
     useEffect(() => {
@@ -66,9 +67,30 @@ export default function Cart() {
                                 ₹{item.product.price}
                             </p>
 
-                            <p>
-                                Quantity: {item.quantity}
-                            </p>
+                            <div className="flex items-center border rounded-lg w-fit">
+                                <button
+                                    onClick={() =>
+                                        updateCartItem(item.id, Math.max(1, item.quantity - 1))
+                                    }
+                                    disabled={item.quantity <= 1}
+                                    className="px-3 py-1 hover:bg-gray-100 disabled:opacity-50"
+                                >
+                                    -
+                                </button>
+
+                                <span className="px-4">
+                                    {item.quantity}
+                                </span>
+
+                                <button
+                                    onClick={() =>
+                                        updateCartItem(item.id, item.quantity + 1)
+                                    }
+                                    className="px-3 py-1 hover:bg-gray-100"
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
                     </div>
 
