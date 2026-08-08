@@ -41,6 +41,12 @@ export default function Cart() {
         );
     }
 
+    const subtotal = cartItems.reduce(
+        (total, item) =>
+            total + Number(item.product.price) * item.quantity,
+        0
+    );
+
     return (
         <div className="max-w-5xl mx-auto py-10">
             <h1 className="text-3xl font-bold mb-8">
@@ -106,6 +112,29 @@ export default function Cart() {
                     </div>
                 </div>
             ))}
+
+            <div className="mt-8 border-t pt-6">
+                <div className="flex justify-between text-lg">
+                    <span>Subtotal</span>
+                    <span className="font-semibold">
+                        ₹{subtotal.toFixed(2)}
+                    </span>
+                </div>
+
+                <div className="flex justify-between text-xl font-bold mt-4">
+                    <span>Total</span>
+                    <span>₹{subtotal.toFixed(2)}</span>
+                </div>
+
+                <button
+                    className="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
+                    onClick={() => console.log("Proceed to checkout")}
+                >
+                    Proceed to Checkout
+                </button>
+            </div>
+
+
         </div>
     );
 }
