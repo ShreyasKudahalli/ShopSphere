@@ -80,6 +80,33 @@ export default function CartProvider({ children }) {
         }
     };
 
+
+
+    const removeCartItem = async (cartId) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            await api.delete(`/cart/${cartId}/`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("access")}`,
+                },
+            });
+
+            await fetchCart();
+        } catch (err) {
+            setError(
+                err.response?.data?.detail || "Failed to remove item from cart."
+            );
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+
     useEffect(() => {
         if (localStorage.getItem("access")) {
             fetchCart();
@@ -95,6 +122,7 @@ export default function CartProvider({ children }) {
                 fetchCart,
                 addToCart,
                 updateCartItem,
+                removeCartItem,
             }}
         >
             {children}

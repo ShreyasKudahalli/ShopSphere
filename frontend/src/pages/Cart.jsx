@@ -10,6 +10,7 @@ export default function Cart() {
         error,
         fetchCart,
         updateCartItem,
+        removeCartItem,
     } = useContext(CartContext);
 
     useEffect(() => {
@@ -91,6 +92,12 @@ export default function Cart() {
                                     +
                                 </button>
                             </div>
+                            <button
+                                onClick={() => removeCartItem(item.id)}
+                                className="mt-3 px-4 py-2 text-sm text-red-600 bg-red-50 rounded-lg hover:bg-red-100"
+                            >
+                                Remove
+                            </button>
                         </div>
                     </div>
 
