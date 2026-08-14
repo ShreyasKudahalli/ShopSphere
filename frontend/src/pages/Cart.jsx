@@ -1,7 +1,8 @@
 // src/pages/Cart.jsx
-
+import { Link } from 'react-router-dom';
 import { useContext, useEffect } from "react";
 import { CartContext } from "../context/CartContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Cart() {
     const {
@@ -13,9 +14,33 @@ export default function Cart() {
         removeCartItem,
     } = useContext(CartContext);
 
+    const {user} = useContext(AuthContext);
+
     useEffect(() => {
         fetchCart();
     }, []);
+
+    if (!user) {
+        return (
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <p className="text-lg">
+                Please sign in to view your cart.
+            </p>
+            <Link
+            to="/login"
+            className="px-6 py-3 bg-white text-blue-700 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+            >
+            Sign In
+            </Link>
+            <Link
+            to="/register"
+            className="px-6 py-3 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-400 transition-colors"
+            >
+            Create Account
+            </Link>
+        </div>
+        );
+    }
 
     if (loading) {
         return (
