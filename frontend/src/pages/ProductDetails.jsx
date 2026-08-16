@@ -1,9 +1,11 @@
 // src/pages/ProductDetails.jsx
 import React, { useState, useEffect, useContext } from 'react';
+import {toast} from 'react-hot-toast';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ProductContext } from '../context/ProductContext';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
+
 
 const ProductDetails = () => {
   const { id } = useParams(); // get product ID from URL
@@ -53,11 +55,14 @@ const ProductDetails = () => {
 
       try {
           setAddingToCart(true);
+
           await addToCart(product.id, quantity);
-          alert("Product added to cart.");
+
+          toast.success("Product added to cart!");
       } catch (err) {
           console.error("Add to cart error:", err);
-          alert("Failed to add product to cart.");
+
+          toast.error("Failed to add product to cart.");
       } finally {
           setAddingToCart(false);
       }

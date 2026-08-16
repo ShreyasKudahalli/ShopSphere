@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 import '../App.css';
 
 // ----- Data (inline for simplicity) -----
@@ -35,6 +36,7 @@ const Icons = {
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const {cartItems} = useContext(CartContext); // Placeholder for cart items
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
@@ -249,7 +251,7 @@ const Navbar = () => {
               <button onClick={handleCartClick} className="relative text-gray-600 hover:text-blue-600 p-1.5 transition-colors">
                 <Icons.Cart />
                 <span className="cart-badge absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  0
+                  {cartItems.length}
                 </span>
               </button>
 
