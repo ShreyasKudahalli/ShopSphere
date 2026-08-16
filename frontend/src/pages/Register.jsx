@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; // adjust path
 
@@ -33,6 +34,7 @@ const Register = () => {
     try {
       // signup expects username, email, password
       await signup(email, password, username);
+      toast.success("Account created successfully! Please log in.");
       navigate('/login'); // redirect to login after successful registration
     } catch (err) {
       if (err.message) {
