@@ -10,7 +10,7 @@ import AuthProvider from './context/AuthContext.jsx'
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
-import ProductContex from './context/ProductContext';
+import ProductContext from './context/ProductContext';
 import ProductDetails from './pages/ProductDetails.jsx';
 import CartProvider from './context/CartContext.jsx';
 import Cart from "./pages/Cart";
@@ -24,7 +24,7 @@ function App() {
     <>
     <Toaster position="top-center" reverseOrder={false} />
     <AuthProvider>
-      <ProductContex>
+      <ProductContext>
       <CartProvider>
       <Navbar /> 
       <Routes>
@@ -36,7 +36,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
       </Routes>
       </CartProvider>
-      </ProductContex>
+      </ProductContext>
     </AuthProvider>
     </>
   )

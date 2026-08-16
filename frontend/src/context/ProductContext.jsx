@@ -4,8 +4,8 @@ import api from "../api/axios";
 
 // Create the context
 export const ProductContext = createContext();
-
-export default function ProductContex({ children }) {
+    
+export default function Productcontext({ children }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
